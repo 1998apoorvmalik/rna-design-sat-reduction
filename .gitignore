@@ -1,0 +1,5 @@
+# python garbage
+__pycache__/
+
+# mac garbage
+.DS_Store
