@@ -5,7 +5,6 @@ from flask import Flask, render_template, request
 # Add the parent directory to the sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-# Now you can import your other module
 from sat import solve_rna_design
 from verifier import kbest
 from data import structs
@@ -13,8 +12,6 @@ from data import structs
 app = Flask(__name__)
 
 def get_rna_design(structure, num_sequences, verify_design):
-    # Dummy function for RNA design
-    # Replace this with your actual RNA design function
     designs = solve_rna_design(structure, num_sequences)
     output = []
     for seq in designs:
