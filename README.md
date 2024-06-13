@@ -60,10 +60,6 @@ Alternatively, you can run the code on your local machine by following the instr
 
 We welcome contributions to improve the project. Please submit a pull request or open an issue to discuss changes.
 
-## License
-
-This project is licensed under the MIT License.
-
 ## Contact
 
 If you have any questions or need further assistance, feel free to contact us at [malikap@oregonstate.edu], [ameyass@oregonstate.edu].
