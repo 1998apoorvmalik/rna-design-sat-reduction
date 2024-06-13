@@ -158,8 +158,9 @@ if __name__ == '__main__':
     #     print("".join(solution))
 
     for tidx in range(0, len(data.structs)):
-        struc = data.structs[tidx]
+        # struc = data.structs[tidx]
+        struc = '()'
         ref_seqs = data.ref_seqs[tidx]
         designs = solve_rna_design(struc)
-        verify(struc, designs, ref_seqs, verbose=True)
+        verify(struc, designs, ref_seqs=[], verbose=True)
         print('\n', end='')

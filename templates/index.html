@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask App</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .form-section {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+        .output-section {
+            margin-left: 300px;
+        }
+        .spinner {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .spinner img {
+            width: 100px;
+            height: 100px;
+            animation: spin 2s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-section">
+            <form id="form" action="/submit_form" method="post" onsubmit="return checkForm()">
+                <div class="form-group">
+                    <label for="input">Find Designs using our SAT solver:</label>
+                    <input type="text" class="form-control" id="input" name="input" oninput="validateInput(this)">
+                    <div id="error-message" class="error"></div>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+        
+        <div class="output-section">
+            <div class="tab-content" id="outputTabsContent">
+                <div class="tab-pane fade show active" id="form" role="tabpanel" aria-labelledby="form-tab">
+                    {% if designs %}
+                        <h3>Designs and their validity:</h3>
+                        <ul>
+                        {% for design in designs %}
+                            <li><strong>{{ design.design }}</strong>: {{ design.result }}</li>
+                        {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>No designs generated yet.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="spinner">
+        <img src="{{ url_for('static', filename='spinner.png') }}" alt="Loading...">
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.amazonaws.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function showSpinner() {
+            document.querySelector('.spinner').style.display = 'block';
+        }
+
+        function validateInput(input) {
+            const validChars = '().';
+            let cleaned = '';
+            for (let char of input.value) {
+                if (validChars.includes(char)) {
+                    cleaned += char;
+                }
+            }
+            input.value = cleaned;
+            checkParentheses(cleaned);
+        }
+
+        function checkParentheses(str) {
+            const stack = [];
+            for (let char of str) {
+                if (char === '(') {
+                    stack.push(char);
+                } else if (char === ')') {
+                    if (stack.length === 0) {
+                        document.getElementById('error-message').textContent = 'Unbalanced parentheses!';
+                        return false;
+                    }
+                    stack.pop();
+                }
+            }
+            if (stack.length === 0) {
+                document.getElementById('error-message').textContent = '';
+                return true;
+            } else {
+                document.getElementById('error-message').textContent = 'Unbalanced parentheses!';
+                return false;
+            }
+        }
+
+        function checkForm() {
+            const input = document.getElementById('input').value;
+            if (!checkParentheses(input)) {
+                document.getElementById('error-message').textContent = 'Please enter a valid well-formed parenthesis string.';
+                return false;
+            }
+            showSpinner();
+            return true;
+        }
+    </script>
+</body>
+</html>
