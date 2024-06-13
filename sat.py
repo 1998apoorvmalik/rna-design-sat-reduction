@@ -9,6 +9,9 @@ from utility import extract_base_pairs
 from verifier import verify
 
 import data as data
+import random
+import time
+import matplotlib.pyplot as plt
 
 def encode_rna_design(struc):
     target_pairs = set(extract_base_pairs(struc))
@@ -123,12 +126,12 @@ def encode_rna_design(struc):
                                 add_non_pairing_constraint(p, q)
     return cnf
 
-def solve_rna_design(struc):
+def solve_rna_design(struc, max_seq=float('inf')):
     cnf = encode_rna_design(struc)
     solutions = []
 
     with Solver(bootstrap_with=cnf) as solver:
-        while solver.solve():
+        while solver.solve() and len(solutions) < max_seq:
             model = solver.get_model()
             base_assignment = [''] * len(struc)
             bases = ['A', 'U', 'G', 'C']
@@ -139,8 +142,9 @@ def solve_rna_design(struc):
                     if base_var in model:
                         base_assignment[i] = b
                         break
-            solutions.append(''.join(base_assignment))            
 
+            solutions.append(''.join(base_assignment))
+            
             # Add a blocking clause to prevent the solver from finding the same solution again
             blocking_clause = [-v for v in model if v > 0]
             solver.add_clause(blocking_clause)
@@ -150,13 +154,14 @@ def solve_rna_design(struc):
 
 if __name__ == '__main__':
     # Example usage
-    # struc = '(((()()((()())))(())))'
+    # struc = '()(()())((())(())()())'
     # designs = solve_rna_design(struc)
     # verify(struc, designs, verbose=True)
     # print("All RNA Sequences:")
     # for solution in all_solutions:
     #     print("".join(solution))
 
+    ## test case 2:
     for tidx in range(0, len(data.structs)):
         # struc = data.structs[tidx]
         struc = '()'
@@ -164,3 +169,110 @@ if __name__ == '__main__':
         designs = solve_rna_design(struc)
         verify(struc, designs, ref_seqs=[], verbose=True)
         print('\n', end='')
+
+
+
+    # Initialize the dictionary to store designable structures
+    # designable_structures = defaultdict(list)
+    # lengths = []
+    # dots = []
+    # times = []
+    # data_size = 10
+
+    # # Generate structures and collect data
+    # for m in range(0, 7, 2):
+    #     while len(designable_structures[m]) < data_size:        
+    #         n = random.randint(10, 201)
+    #         if n % 2:
+    #             n += 1
+    #         start_time = time.time()
+    #         structure = data.generate_random_structure(n, m)
+    #         designs = solve_rna_design(structure)
+    #         end_time = time.time()
+    #         if len(designs):
+    #             if verify(structure, designs, verbose=False):
+    #                 designable_structures[m].append((structure, designs[0]))
+    #                 lengths.append(n)
+    #                 dots.append(m)
+    #                 times.append(end_time - start_time)
+    #             else:
+    #                 print("[FATAL ERROR]: Design verification failed!")
+
+    # import numpy as np
+    # import matplotlib.pyplot as plt
+    # from scipy.optimize import curve_fit
+
+    # # set font size
+    # plt.rcParams.update({'font.size': 14})
+
+    # # Function to fit the data
+    # def fit_function(x, a, b):
+    #     return a * np.power(x, b)
+
+    # # Function to format the fitted curve as Big O notation
+    # def big_o_notation(a, b):
+    #     if b == 1:
+    #         return r"$O(n)$"
+    #     elif b.is_integer():
+    #         return fr"$O(n^{{{int(b)}}})$"
+    #     else:
+    #         return fr"$O(n^{{{b:.2f}}})$"
+        
+
+    # # Aggregate all data points for length vs time
+    # x_data = np.array(lengths)
+    # y_data = np.array([time * 1000 for time in times])  # convert to milliseconds
+
+    # # Fit the curve
+    # popt, _ = curve_fit(fit_function, x_data, y_data)
+
+    # # Generate curve data for plotting
+    # x_fit = np.linspace(min(x_data), max(x_data), 200)
+    # y_fit = fit_function(x_fit, *popt)
+
+    # # Format the Big O notation
+    # big_o = big_o_notation(*popt)
+
+    # plt.figure(figsize=(12, 8))
+    # plt.scatter(x_data, y_data, label='$y$ (structure)')
+    # plt.plot(x_fit, y_fit, color='red', label=f'{big_o}')
+    # plt.title('RNA Design: Time vs Sequence Length')
+    # plt.xlabel('Sequence Length ($n$)')
+    # plt.ylabel('Time ($ms$)')
+    # plt.grid(True)
+    # plt.legend()
+
+    # # Save the plot
+    # plt.savefig('time_vs_length.png')
+    # plt.close()
+
+    # # Plotting time vs length (all structures have same dots)
+    # unique_dots = set(dots)
+    # for dot in unique_dots:
+    #     dot_indices = [i for i, d in enumerate(dots) if d == dot]
+    #     x_data = np.array([lengths[i] for i in dot_indices])
+    #     y_data = np.array([times[i] * 1000 for i in dot_indices])  # convert to milliseconds
+        
+    #     # Fit the curve
+    #     popt, _ = curve_fit(fit_function, x_data, y_data)
+        
+    #     # Generate curve data for plotting
+    #     x_fit = np.linspace(min(x_data), max(x_data), 100)
+    #     y_fit = fit_function(x_fit, *popt)
+        
+    #     # Format the Big O notation
+    #     big_o = big_o_notation(*popt)
+        
+    #     plt.figure(figsize=(12, 8))
+    #     plt.scatter(x_data, y_data, label='$y$ (structure)')
+    #     plt.plot(x_fit, y_fit, color='red', label=f'{big_o}')
+    #     plt.title(f'RNA Design: Time vs Structure Length ({dot} Unpaired positions)')
+    #     plt.xlabel('Length ($n$)')
+    #     plt.ylabel('Time ($ms$)')
+    #     plt.grid(True)
+    #     plt.legend()
+
+    #     # save the plot
+    #     plt.savefig(f'time_vs_length_{dot}_dots.png')
+        
+    #     # plt.show()
