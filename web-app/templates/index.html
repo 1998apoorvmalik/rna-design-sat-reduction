@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RNA Design</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='main.js') }}"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>RNA Design Tool</h1>
+        <form method="post" onsubmit="return validateDotBracket()">
+            <label for="dot_bracket">RNA Structure (Dot-Bracket Notation):</label>
+            <input type="text" id="dot_bracket" name="dot_bracket" value="{{ dot_bracket }}" required>
+            <span id="error_message" class="error-message"></span>
+            <select id="samples" name="samples" onchange="document.getElementById('dot_bracket').value=this.value; this.selectedIndex=0;">
+                <option value="" selected>Samples</option>
+                {% for sample in samples %}
+                    <option value="{{ sample }}">{{ sample }}</option>
+                {% endfor %}
+            </select>
+            
+            <div class="row">
+                <div>
+                    <label for="num_sequences">Number of Sequences to Design:</label>
+                    <input type="number" id="num_sequences" name="num_sequences" min="1" value="{{ num_sequences }}" required>
+                </div>
+                <div class="right-align">
+                    <label for="verify_design">
+                        <input type="checkbox" id="verify_design" name="verify_design" {% if verify_design %}checked{% endif %}>
+                        Verify Design
+                        <span class="info-icon">&#9432;
+                            <span class="tooltip-text">Check this box to verify designed sequences using the k-best folding algorithm. The algorithm will fold each sequence, and return the top 2 (optimal) structures with the most base pairs. If valid, one folded structure will match the inputted target structure, while the other will have fewer base pairs.</span>
+                        </span>
+                    </label>
+                </div>
+            </div>
+
+            <input type="submit" value="Design">
+        </form>
+        {% if designed_sequences is not none %}
+            <div class="result">
+                {% if designed_sequences %}
+                    <h3>Designed RNA sequences for structure</h3>
+                    <h3 style="font-family: 'Courier New', Courier, monospace;">{{ dot_bracket }}</h3>
+                    {% if verify_design %}
+                        <p style="color:sienna">Verifying designed sequences using k-best folding</p>
+                    {% endif %}
+                    <ol>
+                        {% for sequence in designed_sequences %}
+                            <li>
+                                <div class="design-sequence">
+                                    {{ sequence[0] }}
+                                    {% if sequence|length == 2 %}
+                                        {% if sequence[1] %}
+                                            <span style="color: green;">&nbsp;&#x2714;&nbsp;<p style="display: inline;">valid design</p></span>
+                                        {% else %}
+                                            <span style="color: red;">&nbsp;&#x2716;&nbsp;<p style="display: inline;">invalid design</p></span>
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ol>
+                {% else %}
+                    <h3>Undesignable structure {{ dot_bracket }}</h3>
+                {% endif %}
+            </div>
+            <div class="button-row">
+                <button type="button" onclick="downloadResult()">Download Result</button>
+                <button type="button" onclick="clearResult()">Clear</button>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

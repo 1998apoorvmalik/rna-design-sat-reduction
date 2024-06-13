@@ -1,0 +1,196 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: whitesmoke;
+    margin: 0;
+    padding: 0;
+}
+
+h3 {
+    margin: 0px;
+    margin-bottom: 2px;
+    padding: 0px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin: 0 0 30px 0;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+input[type="text"], input[type="number"] {
+    font-family: 'Courier New', Courier, monospace;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+input[type="submit"] {
+    padding: 10px;
+    margin-top: 10px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+input[type="checkbox"] {
+    margin-left: 10px;
+}
+
+#num_sequences {
+    width: 128px;
+}
+
+select {
+    width: 150px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    background-color: #007BFF;
+    color: white;
+}
+
+select:focus {
+    border-color: #007BFF;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.error-message {
+    color: red;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+.row {
+    margin: 8px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.row label {
+    display: block;
+}
+
+.row > div {
+    flex: 1;
+}
+
+.row .right-align {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.result {
+    margin-top: 30px;
+    padding: 10px;
+    background-color: whitesmoke;
+    border-radius: 4px;
+    font-family: "Courier New", Courier, monospace;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.result p {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+.result h3 {
+    display: inline;
+    font-family: 'Roboto', sans-serif;
+}
+
+.design-sequence {
+    display: inline;
+    line-height: 20px;
+}
+
+.button-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+button {
+    min-width: 150px;
+    flex: 0 0 48%;
+    padding: 10px;
+    background-color: slategray;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Add this to your existing CSS file */
+.info-icon {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    margin-left: 5px;
+    color: #007BFF;
+}
+
+.info-icon .tooltip-text {
+    visibility: hidden;
+    width: 220px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%; /* Position the tooltip above the icon */
+    left: 50%;
+    margin-left: -110px; /* Center the tooltip */
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.info-icon .tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%; /* At the bottom of the tooltip */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+.info-icon:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
