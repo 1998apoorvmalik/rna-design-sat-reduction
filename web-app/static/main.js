@@ -18,6 +18,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 });
 
+
+let unbalanced_structure_error_msg = "Invalid Structure, Unbalanced parentheses!";
 function validateDotBracket() {
     const inputField = document.getElementById("dot_bracket");
     const errorMessage = document.getElementById("error_message");
@@ -36,7 +38,7 @@ function validateDotBracket() {
             stack.push(char);
         } else if (char === ')' || char === ']' || char === '}') {
             if (stack.length === 0 || stack.pop() !== pairs[char]) {
-                errorMessage.textContent = 'Unbalanced brackets detected!';
+                errorMessage.textContent = unbalanced_structure_error_msg;
                 inputField.style.borderColor = 'red';
                 return false;
             }
@@ -44,7 +46,7 @@ function validateDotBracket() {
     }
 
     if (stack.length !== 0) {
-        errorMessage.textContent = 'Unbalanced brackets detected!';
+        errorMessage.textContent = unbalanced_structure_error_msg;
         inputField.style.borderColor = 'red';
         return false;
     }
