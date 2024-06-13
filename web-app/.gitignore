@@ -8,8 +8,8 @@ app.yaml
 
 # these copies were made for setting up gcloud server
 main.py
-data.py
+gc_sat.py
+gc_utility.py
+gc_data.py
+gc_verifier.py
 requirements.txt
-sat.py
-utility.py
-verifier.py

@@ -42,7 +42,6 @@ def index():
         num_sequences = int(request.form['num_sequences'])
         verify_design = 'verify_design' in request.form
         designed_sequences = get_rna_design(dot_bracket, num_sequences, verify_design)
-        print(designed_sequences)
     return render_template('index.html', designed_sequences=designed_sequences,
                            dot_bracket=dot_bracket, num_sequences=num_sequences,
                            verify_design=verify_design, samples=samples)

@@ -28,7 +28,7 @@
                 </div>
                 <div class="right-align">
                     <label for="verify_design">
-                        <input type="checkbox" id="verify_design" name="verify_design" {% if verify_design %}checked{% endif %}>
+                        <input type="checkbox" id="verify_design" name="verify_design" checked>
                         Verify Design
                         <span class="info-icon">&#9432;
                             <span class="tooltip-text">Check this box to verify designed sequences using the k-best folding algorithm. The algorithm will fold each sequence, and return the top 2 (optimal) structures with the most base pairs. If valid, one folded structure will match the inputted target structure, while the other will have fewer base pairs.</span>
