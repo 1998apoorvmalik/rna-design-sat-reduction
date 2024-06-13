@@ -1,0 +1,15 @@
+# pysat cache
+tmp
+.pysat-cache
+
+# gcloud stuff
+.gcloudignore
+app.yaml
+
+# these copies were made for setting up gcloud server
+main.py
+data.py
+requirements.txt
+sat.py
+utility.py
+verifier.py
