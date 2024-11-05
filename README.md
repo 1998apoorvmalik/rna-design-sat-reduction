@@ -18,7 +18,10 @@ Alternatively, you can run the code on your local machine by following the instr
 - Python 3.6+
 - `pip` (Python package installer)
 - `pysat` library
+- `python-sat` library
 - `Flask` web framework
+
+You also need to have your pysat configured, to be ready to use.
 
 ### Installation
 
@@ -47,7 +50,8 @@ Alternatively, you can run the code on your local machine by following the instr
 1. Run the Flask development server:
 
    ```sh
-   python main.py
+   cd web-app
+   python app.py
    ```
 
 2. Open your web browser and navigate to:
