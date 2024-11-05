@@ -13,3 +13,6 @@ gc_utility.py
 gc_data.py
 gc_verifier.py
 requirements.txt
+
+# virtual env
+.venv
