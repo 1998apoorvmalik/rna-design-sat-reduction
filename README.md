@@ -7,7 +7,7 @@ The file `sat.py` contains the code for reducing the RNA design problem to SAT a
 
 ## Web Server
 
-We have hosted our RNA Design SAT Solver at [https://rna-design-web-server.uw.r.appspot.com](https://rna-design-web-server.uw.r.appspot.com). You can use this web server to design your own RNA sequences for a target secondary structure.
+We have hosted our RNA Design SAT Solver at [https://5349-128-193-8-40.ngrok-free.app](https://5349-128-193-8-40.ngrok-free.app). You can use this web server to design your own RNA sequences for a target secondary structure.
 
 Alternatively, you can run the code on your local machine by following the instructions below.
 
